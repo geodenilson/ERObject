@@ -23,6 +23,7 @@ guidata(hObject, handles);
 function varargout = ERObject_Beta_OutputFcn(hObject, eventdata, handles) 
 varargout{1} = handles.output;
 % --------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 set(handles.up_mult,'Visible','off');
 set(handles.up_segments,'Visible','off');
 set(handles.up_ndvi,'Visible','off');
@@ -96,7 +97,7 @@ set(handles.obiaclass,'Visible','off');
 
 guidata(hObject,handles);
 
-function menu_tools_Callback(hObject, eventdata, handles);% 1 bot„o: "File".
+function menu_tools_Callback(hObject, eventdata, handles);% 1 bot√£o: "File".
 guidata(hObject,handles);
 function up_layer_Callback(hObject, eventdata, handles);
 guidata(hObject,handles);
@@ -109,14 +110,14 @@ function geobia_Callback(hObject, eventdata, handles);
 guidata(hObject,handles);
 
 % --------------------------------------------------------------------
-function open_image_multi_Callback(hObject, eventdata, handles) %2 bot„o: "Open Image Multiespectral".
-global FileName PathName;% Vari·vel global para acessar imagem multiespectral em outras funÁıes.
+function open_image_multi_Callback(hObject, eventdata, handles) %2 bot√£o: "Open Image Multiespectral".
+global FileName PathName;% Vari√°vel global para acessar imagem multiespectral em outras fun√ß√µes.
 [FileName,PathName] = uigetfile({'*.tif'},'Selecione a imagem Multiespectral')...
     ; %Pasta e nome para abrir imagem multespectral.
 ln_multi = fullfile(PathName,FileName);
 global mulT;
 mulT = GRIDobj(ln_multi);%Insere imagem na classe GRIDobj.
-[s] = plotRGB2(mulT); %Executa funÁ„o plotRGB2, que gera strutura "s".
+[s] = plotRGB2(mulT); %Executa fun√ß√£o plotRGB2, que gera strutura "s".
 NBands = mulT.size (1,3);%Verifica quantas bandas a imagem possui.
 for i=1:NBands %Loop para executar linhas da estrutura "s"
     eval ([char(s(i).out) ';']);%Executa linhas da coluna out da estrutura
@@ -124,13 +125,13 @@ for i=1:NBands %Loop para executar linhas da estrutura "s"
     eval (['delete(' (char(39)) (char(s(i).pasta)) (char(39))...
         ');']);%apaga arquivos gerados pela linha anterior da pasta temp. 
 end
-RGB=cat(3,B1,B2,B3); % Empilha as bandas 1, 2 e 3 para visualizaÁ„o.
+RGB=cat(3,B1,B2,B3); % Empilha as bandas 1, 2 e 3 para visualiza√ß√£o.
 RGB = uint16(RGB);% define o tipo dos dados de imagem (neste caso 16 bis-RapidEye).
 global rgb_aju;
 global R;
 rgb_aju = imadjust(RGB,stretchlim(RGB),[]);% Equaliza automaticamente a imagem.
 mapshow(rgb_aju, R); %Plota a imagem. 
-axis off; % desabilita informaÁıes dos eixos da plotagem.
+axis off; % desabilita informa√ß√µes dos eixos da plotagem.
 
 
 set(handles.menu_tools,'Visible','on');
@@ -142,30 +143,30 @@ set(handles.alter_rgb,'Visible','on');
 guidata(hObject,handles);
 
 function Segmentation_Mult_Callback(hObject, eventdata, handles)
-global FileName PathName; %Chamada da Vari·vel global para acessar imagem multiespectral.
+global FileName PathName; %Chamada da Vari√°vel global para acessar imagem multiespectral.
 Diretorio = fullfile(PathName,FileName); %Pasta e nome para abrir imagem multespectral.
 RapidEye = GRIDobj(Diretorio);%Insere imagem na classe GRIDobj.
 canto = int32 (RapidEye.georef.BoundingBox([1, 3, 2, 4]));
 Parametros_Baatz = str2double(inputdlg({'Compacidade:','Cor:','Escala:'},'Baatz',1,{'0.5',...
-    '0.5','60'}));%Janela de para coleta de parametros para execuÁ„o do segmentador Baatz. 
-comp = Parametros_Baatz(1); %Vari·vel compacidade do segmentador Baatz. 
-cor = Parametros_Baatz(2);%Vari·vel cor do segmentador Baatz.
-escala = Parametros_Baatz(3);%Vari·vel escala do segmentador Baatz.
+    '0.5','60'}));%Janela de para coleta de parametros para execu√ß√£o do segmentador Baatz. 
+comp = Parametros_Baatz(1); %Vari√°vel compacidade do segmentador Baatz. 
+cor = Parametros_Baatz(2);%Vari√°vel cor do segmentador Baatz.
+escala = Parametros_Baatz(3);%Vari√°vel escala do segmentador Baatz.
 h = waitbar(0,'Processing...');
-global Seg_BaatzG; %Vari·vel global para acessar imagem segmentada em outras funÁıes.
+global Seg_BaatzG; %Vari√°vel global para acessar imagem segmentada em outras fun√ß√µes.
 waitbar(1/2,h,sprintf('Processing... %.2f%%',1/2*100));
 Seg_BaatzG = InterImage_Seg_Baatz(FileName,Diretorio,canto,comp,cor,escala);
 waitbar(2/2,h,sprintf('Processing... %.2f%%',2/2*100));
-%ExecuÁ„o do segmentador Baatz com base na funÁ„o "InterImage_Seg_Baatz" (+detalhes na funÁ„o).
+%Execu√ß√£o do segmentador Baatz com base na fun√ß√£o "InterImage_Seg_Baatz" (+detalhes na fun√ß√£o).
 global SBaatz;
 SBaatz = Seg_BaatzG;
-Seg_BaatzG.georef = RapidEye.georef;%Passa par‚metros de da imagem original para a segmentaÁ„o. 
-Seg_BaatzG.refmat = RapidEye.refmat;%Passa par‚metros de da imagem original para a segmentaÁ„o.
-Seg_BaatzG.size = RapidEye.size;%Passa par‚metros de da imagem original para a segmentaÁ„o.
+Seg_BaatzG.georef = RapidEye.georef;%Passa par√¢metros de da imagem original para a segmenta√ß√£o. 
+Seg_BaatzG.refmat = RapidEye.refmat;%Passa par√¢metros de da imagem original para a segmenta√ß√£o.
+Seg_BaatzG.size = RapidEye.size;%Passa par√¢metros de da imagem original para a segmenta√ß√£o.
 global SRt;
 SRt = GRIDobj2polygon2(Seg_BaatzG,'Geometry','Polygon');%Gera estrutura para grear o shapefile.
 close(h);
-geoshow(SRt, 'FaceColor', 'none','EdgeColor','blue');%Plota a segmentaÁ„o na view exixtente. 
+geoshow(SRt, 'FaceColor', 'none','EdgeColor','blue');%Plota a segmenta√ß√£o na view exixtente. 
 
 
 set(handles.run_tree,'Visible','on');
@@ -180,7 +181,7 @@ guidata(hObject,handles);
 
 % --------------------------------------------------------------------
 function topographic_variables_Callback(hObject,...
-    eventdata, handles)% 1 bot„o: "Topographic Variables".
+    eventdata, handles)% 1 bot√£o: "Topographic Variables".
 guidata(hObject,handles);
 
 % --------------------------------------------------------------------
@@ -188,8 +189,8 @@ function Compute_NDVI_Callback(hObject, eventdata, handles)
 global FileName PathName;
 Diretorio = fullfile(PathName,FileName);
 RapidEye = GRIDobj(Diretorio);
-ORbands =str2double(inputdlg({'Ordem da banda Near - Infravermelho (apenas n˙mero):',...
-    'Ordem da banda R -  Vermelho (apenas n˙mero):'},'Ordem',1,{'5','3'}));
+ORbands =str2double(inputdlg({'Ordem da banda Near - Infravermelho (apenas n√∫mero):',...
+    'Ordem da banda R -  Vermelho (apenas n√∫mero):'},'Ordem',1,{'5','3'}));
 INFR = RapidEye.Z (:,:,ORbands(1));
 VERM = RapidEye.Z (:,:,ORbands(2));
 NDVI1 = NDVI (INFR,VERM);
@@ -323,11 +324,11 @@ set(handles.erosion_susceptibility,'Visible','on');
 guidata(hObject,handles);
 
 function alter_rgb_ClickedCallback(hObject, eventdata, handles)
-global FileName PathName;% Vari·vel global para acessar imagem multiespectral em outras funÁıes.
+global FileName PathName;% Vari√°vel global para acessar imagem multiespectral em outras fun√ß√µes.
 ln_multi = fullfile(PathName,FileName);
 global mulT
 mulT = GRIDobj(ln_multi);%Insere imagem na classe GRIDobj.
-[s] = plotRGB2(mulT); %Executa funÁ„o plotRGB2, que gera strutura "s".
+[s] = plotRGB2(mulT); %Executa fun√ß√£o plotRGB2, que gera strutura "s".
 NBands = mulT.size (1,3);%Verifica quantas bandas a imagem possui.
 for i=1:NBands %Loop para executar linhas da estrutura "s"
     eval ([char(s(i).out) ';']);%Executa linhas da coluna out da estrutura
@@ -349,13 +350,13 @@ for i=1:3 %Loop que tranforma a resposta da caixa de dialogo em estrutura.
 end
 
 eval(['RGB=cat(3,B' lis(1).coll ',B' lis(2).coll ',B' lis(3).coll...
-    ');']); % Empilha as bandas de acordo com escolha da caixa de di·logo.
+    ');']); % Empilha as bandas de acordo com escolha da caixa de di√°logo.
 RGB = uint16(RGB);% define o tipo dos dados de imagem (neste caso 16 bis-RapidEye).
 global rgb_aju;
 global R;
 rgb_aju = imadjust(RGB,stretchlim(RGB),[]);% Equaliza automaticamente a imagem.
 mapshow(rgb_aju, R); %Plota a imagem. 
-axis off; % desabilita informaÁıes dos eixos da plotagem.
+axis off; % desabilita informa√ß√µes dos eixos da plotagem.
 guidata(hObject,handles);
 
 function uipushtool8_ClickedCallback(hObject, eventdata, handles)
@@ -455,12 +456,12 @@ E_TWI = twi(H_FAcc,A_DTan);
 I_ICTS = icts(H_FAcc,A_DSin);
 J_ICMF = icmf(H_FAcc,A_DTan);
 
-% Escolha da ·rvore
-[FileName,PathName] = uigetfile({'*.txt'},'Selecione a ·rvore');
+% Escolha da √°rvore
+[FileName,PathName] = uigetfile({'*.txt'},'Selecione a √°rvore');
 Diretorio = fullfile(PathName,FileName);
 
-f = warndlg({'A ·rvore de decis„o È especÌfica para uma determinada regi„o, caso' 'vocÍ queira calcular a susceptibilidade a processos erosivos para' 'outras ·reas, verifique a disponibilidade no site: www.erobject.com.br' 'ou entre em contato com geodenilson@gmail.com.' 'Clique em ok para continuar...'},...
-    'AtenÁ„o!');waitfor(f);
+f = warndlg({'A √°rvore de decis√£o √© espec√≠fica para uma determinada regi√£o, caso' 'voc√™ queira calcular a susceptibilidade a processos erosivos para' 'outras √°reas, verifique a disponibilidade no site: www.erobject.com.br' 'ou entre em contato com geodenilson@gmail.com.' 'Clique em ok para continuar...'},...
+    'Aten√ß√£o!');waitfor(f);
 
 h = waitbar(0,'Processing...');
 
@@ -618,7 +619,7 @@ function save_variables_Callback(hObject, eventdata, handles)
 function dem_Callback(hObject, eventdata, handles)
 global A_DEM;
 [FileName,PathName] = uiputfile('digital_elevation_model.tif',...
-    'Escolha a pasta para salvar o Modelo Digital de ElevaÁ„o.tif');
+    'Escolha a pasta para salvar o Modelo Digital de Eleva√ß√£o.tif');
 Diretorio = fullfile(PathName,FileName);
 GRIDobj2geotiff (A_DEM,Diretorio);
 guidata(hObject,handles);
@@ -678,7 +679,7 @@ guidata(hObject,handles);
 function f_accumulation_Callback(hObject, eventdata, handles)
 global A_FAcc;
 [FileName,PathName] = uiputfile('flow_accumulation.tif',...
-    'Escolha a pasta para salvar o Fluxo de AcumulaÁ„o.tif');
+    'Escolha a pasta para salvar o Fluxo de Acumula√ß√£o.tif');
 Diretorio = fullfile(PathName,FileName);
 GRIDobj2geotiff (A_FAcc,Diretorio);
 guidata(hObject,handles);
@@ -687,7 +688,7 @@ guidata(hObject,handles);
 function twi_Callback(hObject, eventdata, handles)
 global A_TWI;
 [FileName,PathName] = uiputfile('topographic_wetness_index.tif',...
-    'Escolha a pasta para salvar o Õndice de Umidade Topogr·fica.tif');
+    'Escolha a pasta para salvar o √çndice de Umidade Topogr√°fica.tif');
 Diretorio = fullfile(PathName,FileName);
 GRIDobj2geotiff (A_TWI,Diretorio);
 guidata(hObject,handles);
@@ -696,7 +697,7 @@ guidata(hObject,handles);
 function spi_Callback(hObject, eventdata, handles)
 global A_ICMF;
 [FileName,PathName] = uiputfile('stream_power_index.tif',...
-    'Escolha a pasta para salvar o Õndice de M·ximo Fluxo Corrente.tif');
+    'Escolha a pasta para salvar o √çndice de M√°ximo Fluxo Corrente.tif');
 Diretorio = fullfile(PathName,FileName);
 GRIDobj2geotiff (A_ICMF,Diretorio);
 guidata(hObject,handles);
@@ -705,7 +706,7 @@ guidata(hObject,handles);
 function ls_Callback(hObject, eventdata, handles)
 global A_ICTS;
 [FileName,PathName] = uiputfile('length_slope.tif',...
-    'Escolha a pasta para salvar o Õndice de Capacidade de Tranporte de Sedimentos.tif');
+    'Escolha a pasta para salvar o √çndice de Capacidade de Tranporte de Sedimentos.tif');
 Diretorio = fullfile(PathName,FileName);
 GRIDobj2geotiff (A_ICTS,Diretorio);
 guidata(hObject,handles);
@@ -715,13 +716,13 @@ function drainage_Callback(hObject, eventdata, handles)
 global A_DEM;
 FD = FLOWobj(A_DEM);
 A_FAcc = flowacc(FD);
-Densidade=str2double(inputdlg({'Densidade da drenagem: quanto MENOR o valor, MAIOR a quantidade de feiÁıes de drenagens.'},...
+Densidade=str2double(inputdlg({'Densidade da drenagem: quanto MENOR o valor, MAIOR a quantidade de fei√ß√µes de drenagens.'},...
     'Densidade',1,{'5000'}));
 W = A_FAcc>Densidade;
 S = STREAMobj(FD,W);
 MS = STREAMobj2mapstruct(S);
 [FileName,PathName] = uiputfile('drainage.shp',...
-    'Escolha a pasta para salvar a Drenagem');% Cria vari·vel de nome do arquivo e diretÛrio.
+    'Escolha a pasta para salvar a Drenagem');% Cria vari√°vel de nome do arquivo e diret√≥rio.
 pasta_nome = fullfile(PathName,FileName); %Une o caminho de salvamento com o nome do arquivo.
 shapewrite(MS,pasta_nome);
 guidata(hObject,handles);
@@ -736,7 +737,7 @@ function save_shapefile_geobia_Callback(hObject, eventdata, handles)
 function segmentation_Callback(hObject, eventdata, handles)
 global SRt
 [FileName,PathName] = uiputfile('segmentation.shp',...
-    'Escolha a pasta para salvar a SegmentaÁ„o');% Cria vari·vel de nome do arquivo e diretÛrio.
+    'Escolha a pasta para salvar a Segmenta√ß√£o');% Cria vari√°vel de nome do arquivo e diret√≥rio.
 pasta_nome = fullfile(PathName,FileName); %Une o caminho de salvamento com o nome do arquivo.
 shapewrite(SRt,pasta_nome);
 guidata(hObject,handles);
@@ -745,7 +746,7 @@ guidata(hObject,handles);
 function attributes_segment_mul_dem_shp_Callback(hObject, eventdata, handles)
 global struct_final;
 [FileName,PathName] = uiputfile('seg_atributes_mult_dem.shp',...
-    'Escolha a pasta para salvar a SegmentaÁ„o');% Cria vari·vel de nome do arquivo e diretÛrio.
+    'Escolha a pasta para salvar a Segmenta√ß√£o');% Cria vari√°vel de nome do arquivo e diret√≥rio.
 pasta_nome = fullfile(PathName,FileName); %Une o caminho de salvamento com o nome do arquivo.
 shapewrite(struct_final,pasta_nome);
 guidata(hObject,handles);
@@ -754,7 +755,7 @@ guidata(hObject,handles);
 function erosion_susceptibility_shp_Callback(hObject, eventdata, handles)
 global Vetor;
 [FileName,PathName] = uiputfile('erosion_susceptibility.shp',...
-    'Escolha a pasta para salvar PEL');% Cria vari·vel de nome do arquivo e diretÛrio.
+    'Escolha a pasta para salvar PEL');% Cria vari√°vel de nome do arquivo e diret√≥rio.
 pasta_nome = fullfile(PathName,FileName); %Une o caminho de salvamento com o nome do arquivo.
 shapewrite(Vetor,pasta_nome);
 guidata(hObject,handles);
@@ -819,13 +820,13 @@ function up_mult_Callback(hObject, eventdata, handles)
 global rgb_aju;
 global R;
 mapshow(rgb_aju, R); %Plota a imagem. 
-axis off; % desabilita informaÁıes dos eixos da plotagem.
+axis off; % desabilita informa√ß√µes dos eixos da plotagem.
 guidata(hObject,handles);
 
 function up_segments_Callback(hObject, eventdata, handles)
 global SRt;
 geoshow(SRt, 'FaceColor', 'none','EdgeColor',...
-    'blue');%Plota a segmentaÁ„o na view exixtente.
+    'blue');%Plota a segmenta√ß√£o na view exixtente.
 guidata(hObject,handles);
 
 function up_ndvi_Callback(hObject, eventdata, handles)
@@ -944,7 +945,7 @@ function explo_mult_Callback(hObject, eventdata, handles)
 
 global mulT
 % global Seg_BaatzG
-[s] = plotRGB2(mulT); %Executa funÁ„o plotRGB2, que gera strutura "s".
+[s] = plotRGB2(mulT); %Executa fun√ß√£o plotRGB2, que gera strutura "s".
 NBands = mulT.size (1,3);%Verifica quantas bandas a imagem possui.
 for i=1:NBands %Loop para executar linhas da estrutura "s"
     eval ([char(s(i).out) ';']);%Executa linhas da coluna out da estrutura
@@ -1138,7 +1139,7 @@ guidata(hObject,handles);
 function obiaclass_Callback(hObject, eventdata, handles)
 thres = CheckThres;
 [FileName,PathName] = uiputfile('class.shp',...
-    'Escolha a pasta para salvar a Class');% Cria vari·vel de nome do arquivo e diretÛrio.
+    'Escolha a pasta para salvar a Class');% Cria vari√°vel de nome do arquivo e diret√≥rio.
 pasta_nome = fullfile(PathName,FileName); %Une o caminho de salvamento com o nome do arquivo.
 SRtu_class = ERO2Vector(thres);
 shapewrite(SRtu_class,pasta_nome);
@@ -1169,14 +1170,14 @@ guidata(hObject,handles);
 
 % --------------------------------------------------------------------
 function About2_Callback(hObject, eventdata, handles)
-h = msgbox('Esta e vers„o 1.0 Beta de ErObject, desenvolvida com o objetivo de possibilitar an·lise geogr·fica de imagens de satÈlite e o uso de Modelos Digitais de ElevaÁ„o - MDE, apoiada na tÈcnica de an·lise baseada em objetos, para determinaÁ„o de ·reas com susceptibilidade e localizaÁ„o de processos erosivos lineares.');
+h = msgbox('Esta e vers√£o 1.0 Beta de ErObject, desenvolvida com o objetivo de possibilitar an√°lise geogr√°fica de imagens de sat√©lite e o uso de Modelos Digitais de Eleva√ß√£o - MDE, apoiada na t√©cnica de an√°lise baseada em objetos, para determina√ß√£o de √°reas com susceptibilidade e localiza√ß√£o de processos erosivos lineares.');
 guidata(hObject,handles);
 
 
 % --------------------------------------------------------------------
 function save_rule_Callback(hObject, eventdata, handles)
 [FileName,PathName] = uiputfile('rules.txt',...
-    'Escolha a pasta para salvar a ·rvore');% Cria vari·vel de nome do arquivo e diretÛrio.
+    'Escolha a pasta para salvar a √°rvore');% Cria vari√°vel de nome do arquivo e diret√≥rio.
 pasta_nome = fullfile(PathName,FileName); %Une o caminho de salvamento com o nome do arquivo.
 
 G_names = who('global');
@@ -1242,7 +1243,7 @@ for i = 2:NEle
     eval (['global ' G_names{Index_low(i)}]);
 end
 
-[FileName,PathName] = uigetfile({'*.txt'},'Selecione a ·rvore');
+[FileName,PathName] = uigetfile({'*.txt'},'Selecione a √°rvore');
 Diretorio = fullfile(PathName,FileName);
 ARV1 = importdata(Diretorio);
 NEle = numel (ARV1);
@@ -1265,7 +1266,7 @@ function external_tree_shp_Callback(hObject, eventdata, handles)
 global Vetor_tree;
 
 [FileName,PathName] = uiputfile('External_Tree.shp',...
-    'Escolha a pasta para salvar o shapefile');% Cria vari·vel de nome do arquivo e diretÛrio.
+    'Escolha a pasta para salvar o shapefile');% Cria vari√°vel de nome do arquivo e diret√≥rio.
 pasta_nome = fullfile(PathName,FileName); %Une o caminho de salvamento com o nome do arquivo.
 
 shapewrite(Vetor_tree,pasta_nome);
