@@ -1,0 +1,1 @@
+PEL=exp_DSin>0.11583&((exp_NDVI<=0.260636&exp_Comp<=0.001484&exp_CPer<=-0.000308&exp_DEM>888.625427)|(exp_NDVI<=0.260636&exp_Comp>0.001484&exp_Comp<=0.001869&exp_FAcc>15.294574)|(exp_NDVI<=0.260636&exp_Comp>0.001484))
