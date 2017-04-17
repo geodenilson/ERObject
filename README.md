@@ -1,5 +1,5 @@
 # ErObject
-Esta e a versão 1.0 Beta de ErObject, desenvolvida com o objetivo de possibilitar análise geográfica de imagens de satélite e o uso de Modelos Digitais de Elevação - MDE, apoiada na técnica de análise baseada em objetos, para determinação de áreas com susceptibilidade e localização de processos erosivos lineares.
+Esta e a versão 1.0 Beta de ErObject, um programa em Matlab que foi construído como parte de uma tese de doutorado cujo o objetivo foi de desenvolver um aplicativo para análise geográfica de imagens baseada em objeto, para identificar de forma automática, áreas susceptíveis ao desenvolvimento de processos erosivos lineares, bem como sua localização, apoiada na técnica de análise geográfica baseada em objetos (Geobia).
 
 # Executável para Windows
 http://bit.ly/Erobject
